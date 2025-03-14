@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Waterfall Excel Office Add-in 使用说明</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Waterfall Excel Office Add-in 使用说明</h1>
+    <p class="subtitle">请按照以下步骤操作，体验 Waterfall 工具的功能</p>
+  </header>
+  
+  <nav>
+    <ul>
+      <li><a href="#step1">步骤 1</a></li>
+      <li><a href="#step2">步骤 2</a></li>
+      <li><a href="#step3">步骤 3</a></li>
+      <li><a href="#step4">步骤 4</a></li>
+      <li><a href="#step5">步骤 5</a></li>
+      <li><a href="#step6">步骤 6</a></li>
+      <li><a href="#step7">步骤 7</a></li>
+      <li><a href="#step8">步骤 8</a></li>
+      <li><a href="#step9">步骤 9</a></li>
+      <li><a href="#step10">步骤 10</a></li>
+    </ul>
+  </nav>
+  
+  <main>
+    <!-- 步骤1 -->
+    <section id="step1">
+      <h2>步骤 1：点击 Ribbon 上的 "Waterfall" 按钮</h2>
+      <p>在 Excel 的上方 Tab 或 Ribbon 上点击 “Waterfall” add-in 按钮。（如何实现？）</p>
+      <img src="placeholder.jpg" alt="Ribbon 上的 Waterfall 按钮示意图">
+    </section>
+    
+    <!-- 步骤2 -->
+    <section id="step2">
+      <h2>步骤 2：显示 Taskpane</h2>
+      <p>点击按钮后，Excel 右侧的 Taskpane 上会显示 Waterfall 工具的界面。</p>
+      <img src="placeholder.jpg" alt="Taskpane 中显示的 Waterfall 工具界面">
+    </section>
+    
+    <!-- 步骤3 -->
+    <section id="step3">
+      <h2>步骤 3：生成 "Bridge Data" 工作表</h2>
+      <p>点击后会自动生成一个名为 “Bridge Data” 的新工作表，这里用于输入数据。</p>
+      <img src="placeholder.jpg" alt="生成的 Bridge Data 工作表示意图">
+    </section>
+    
+    <!-- 步骤4 -->
+    <section id="step4">
+      <h2>步骤 4：选择数据类型</h2>
+      <p>
+        在 "Bridge Data" 工作表第一行下拉菜单中，从 B 列开始选择数据类型。程序会根据以下数据类型进行自动分析：
+      </p>
+      <ul>
+        <li><strong>Dimension</strong>: 表示数据的维度（如日期、时间、区域），通常用于筛选，不参与计算。</li>
+        <li><strong>Key</strong>: Dimension 的一种，标记后作为分析最小颗粒度。每行只能有一个 Key。</li>
+        <li><strong>Raw Data</strong>: 对计算结果产生影响的变量，如 Price、Quantity 等。</li>
+        <li><strong>Non-additive</strong>: 原始数据的一种，不能直接相加，例如 Price（不同产品的价格不可直接求和）。</li>
+        <li><strong>Result</strong>: 分析结果字段，必须输入公式（仅支持加减乘除运算）。<em>(需要检测公式合法性并出现 warning 提醒)</em></li>
+      </ul>
+      <p>注意：公式中只能引用同一行内的其他字段，不能跨行。</p>
+    </section>
+    
+    <!-- 步骤5 -->
+    <section id="step5">
+      <h2>步骤 5：生成初始 Waterfall 图</h2>
+      <p>
+        数据类型选择及数据输入完成后，点击右侧 Taskpane 中的 "Waterfall" 按钮，
+        将生成 Waterfall 图。初始显示的 Waterfall 图可能由于缺少基数和目标数据而显示无差异。
+      </p>
+    </section>
+    
+    <!-- 步骤6 -->
+    <section id="step6">
+      <h2>步骤 6：Dimension 筛选</h2>
+      <p>
+        Taskpane 中会生成所有 Dimension 对应的下拉菜单，用于分别筛选左侧 Base（基数）和右侧 Target（目标）部分。
+      </p>
+      <p>（视频操作解释）</p>
+    </section>
+    
+    <!-- 步骤7 -->
+    <section id="step7">
+      <h2>步骤 7：筛选 Base 和 Target</h2>
+      <p>
+        通过下拉菜单选择所需的 Base 和 Target 维度后，点击确认，将生成对应的 Waterfall 图，
+        并显示每个变量对 Result 的影响。可能会同时生成变量差异表格（根据需求）。
+      </p>
+      <p>（视频操作解释，举例详细说明）</p>
+    </section>
+    
+    <!-- 步骤8 -->
+    <section id="step8">
+      <h2>步骤 8：Waterfall 图解释</h2>
+      <p>
+        生成的 Waterfall 图中只会包含与 Result 字段相关的变量分析，其他变量不参与计算。
+      </p>
+    </section>
+    
+    <!-- 步骤9 -->
+    <section id="step9">
+      <h2>步骤 9：公式验证</h2>
+      <p>
+        请注意，每个 Raw Data、Non-additive 和 Result 单元格中的公式只能包含加减乘除运算符，
+        不能包含平方或跨行引用。系统将检测公式的合法性并在发现错误时显示警告。
+      </p>
+      <button id="validateFormulaBtn">验证示例公式</button>
+      <p id="formulaWarning" class="warning" style="display:none;">Warning：公式必须只包含四则运算且不能跨行引用！</p>
+    </section>
+    
+    <!-- 步骤10 -->
+    <section id="step10">
+      <h2>步骤 10：续订操作</h2>
+      <p>
+        当用户输入数据并生成 Waterfall 图后，如果没有对比数据，显示的 Waterfall 会为无差异状态。
+        请根据提示操作，并确保每个 Result 单元格中均有正确的公式。
+      </p>
+    </section>
+  </main>
+  
+  <footer>
+    <h2>如何上传到 GitHub Pages</h2>
+    <ol>
+      <li>访问你的仓库：<a href="https://github.com/Icelemon27/bluewater.github.io" target="_blank">https://github.com/Icelemon27/bluewater.github.io</a></li>
+      <li>将上述三个文件（index.html、styles.css、script.js）上传到仓库根目录，可以直接使用 Git 命令行或 GitHub 网页界面进行上传。</li>
+      <li>提交（commit）并推送（push）更改后，GitHub Pages 会自动生成你的网站。对于用户仓库，网站链接通常为：<code>https://Icelemon27.github.io</code></li>
+      <li>访问该链接即可查看你的网页。</li>
+    </ol>
+    <p>确保仓库名称格式正确（例如：用户名.github.io），这样 GitHub Pages 会自动发布你的网页。</p>
+  </footer>
+  
+  <script src="script.js"></script>
+</body>
+</html>
